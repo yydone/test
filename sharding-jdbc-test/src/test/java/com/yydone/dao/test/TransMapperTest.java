@@ -19,7 +19,7 @@ public class TransMapperTest {
     @Test
     public void saveTest() {
         Trans trans = new Trans();
-        trans.setTransId("2018012315300012345678901234123");
+        trans.setTransId("2018012315300012345678901230103");
         trans.setOrgCode("Z1020020020001");
         trans.setTransAmt(100L);
         trans.setTransState("00");
@@ -30,7 +30,7 @@ public class TransMapperTest {
     public void getTest() {
         String transId = "2018012315300012345678901234123";
         Trans trans = transMapper.get(transId);
-        Assert.assertTrue(trans.getTransState().equals("00"));
+        Assert.assertTrue(trans.getTransState().equals("22"));
     }
 
     @Test
