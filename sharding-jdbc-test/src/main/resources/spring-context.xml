@@ -2,29 +2,20 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       xmlns:sharding="http://shardingjdbc.io/schema/shardingjdbc/sharding"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
        http://www.springframework.org/schema/context
-       http://www.springframework.org/schema/context/spring-context.xsd">
+       http://www.springframework.org/schema/context/spring-context.xsd
+       http://shardingjdbc.io/schema/shardingjdbc/sharding
+       http://shardingjdbc.io/schema/shardingjdbc/sharding/sharding.xsd ">
 
 
     <context:component-scan base-package="com.yydone.service"/>
-
-    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
-          destroy-method="close">
-        <property name="driverClass" value="com.mysql.jdbc.Driver" />
-        <property name="jdbcUrl" value="jdbc:mysql://localhost:3306/trans" />
-        <property name="user" value="root" />
-        <property name="password" value="root" />
-        <property name="initialPoolSize" value="1" />
-        <property name="minPoolSize" value="1" />
-        <property name="maxPoolSize" value="10" />
-        <property name="acquireIncrement" value="5" />
-        <property name="maxIdleTime" value="10" />
-        <property name="maxStatements" value="0" />
-    </bean>
+    <context:component-scan base-package="com.yydone.common"/>
 
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
-        <property name="dataSource" ref="dataSource" />
+        <property name="dataSource" ref="shardingDataSource" />
         <property name="mapperLocations">
             <list>
                 <value>classpath:mapper/*Mapper.xml</value>
@@ -36,5 +27,42 @@
         <property name="basePackage" value="com.yydone.dao" />
         <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
     </bean>
+
+    <bean id="trans_00" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
+        <property name="driverClass" value="com.mysql.jdbc.Driver" />
+        <property name="jdbcUrl" value="jdbc:mysql://localhost:3306/trans_00" />
+        <property name="user" value="root" />
+        <property name="password" value="root" />
+        <property name="initialPoolSize" value="1" />
+        <property name="minPoolSize" value="1" />
+        <property name="maxPoolSize" value="10" />
+        <property name="acquireIncrement" value="5" />
+        <property name="maxIdleTime" value="10" />
+        <property name="maxStatements" value="0" />
+    </bean>
+
+    <bean id="trans_01" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
+        <property name="driverClass" value="com.mysql.jdbc.Driver" />
+        <property name="jdbcUrl" value="jdbc:mysql://localhost:3306/trans_01" />
+        <property name="user" value="root" />
+        <property name="password" value="root" />
+        <property name="initialPoolSize" value="1" />
+        <property name="minPoolSize" value="1" />
+        <property name="maxPoolSize" value="10" />
+        <property name="acquireIncrement" value="5" />
+        <property name="maxIdleTime" value="10" />
+        <property name="maxStatements" value="0" />
+    </bean>
+
+    <sharding:standard-strategy id="databaseStrategy" sharding-column="trans_id" precise-algorithm-class="com.yydone.common.TransDatabaseShardingAlgorithm" />
+    <sharding:standard-strategy id="tableStrategy" sharding-column="trans_id" precise-algorithm-class="com.yydone.common.TransTableShardingAlgorithm" />
+
+    <sharding:data-source id="shardingDataSource">
+        <sharding:sharding-rule data-source-names="trans_00,trans_01" default-data-source-name="trans_00">
+            <sharding:table-rules>
+                <sharding:table-rule logic-table="t_trans" actual-data-nodes="trans_0${0..1}.t_trans_0${0..9}" database-strategy-ref="databaseStrategy" table-strategy-ref="tableStrategy" />
+            </sharding:table-rules>
+        </sharding:sharding-rule>
+    </sharding:data-source>
 
 </beans>
