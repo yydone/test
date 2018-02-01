@@ -3,6 +3,8 @@ package com.yydone.dao;
 import com.yydone.model.Trans;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 public interface TransMapper {
 
     /**
@@ -27,4 +29,19 @@ public interface TransMapper {
      * @return
      */
     public Trans get(String transId);
+
+    /**
+     * 获取商户的分页订单
+     * @param orgCode
+     * @param start
+     * @return
+     */
+    public List<Trans> getList(@Param("orgCode") String orgCode,@Param("start") int start);
+
+    /**
+     *
+     * @param orgCode
+     * @return
+     */
+    public int getCount(@Param("orgCode") String orgCode);
 }

@@ -37,6 +37,31 @@
             trans_id = #{transId}
     </update>
 
+    <select id="getList" resultType="com.yydone.model.Trans">
+        SELECT
+            trans_id AS transId,
+            trans_amt AS transAmt,
+            org_code AS orgCode,
+            trans_state AS transState,
+            create_time AS createTime,
+            update_time AS updateTime,
+            version AS version
+        FROM
+            t_trans
+        WHERE
+            org_code = #{orgCode}
+        ORDER BY trans_id ASC
+        limit #{start}, 10
+    </select>
+
+    <select id="getCount" resultType="Integer">
+        SELECT
+            count(1)
+        from
+            t_trans
+        where
+            org_code = #{orgCode}
+    </select>
 
 
 </mapper>

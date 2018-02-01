@@ -30,26 +30,26 @@
 
     <bean id="trans_00" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
         <property name="driverClass" value="com.mysql.jdbc.Driver" />
-        <property name="jdbcUrl" value="jdbc:mysql://localhost:3306/trans_00" />
-        <property name="user" value="root" />
-        <property name="password" value="root" />
-        <property name="initialPoolSize" value="1" />
-        <property name="minPoolSize" value="1" />
-        <property name="maxPoolSize" value="10" />
-        <property name="acquireIncrement" value="5" />
+        <property name="jdbcUrl" value="jdbc:mysql://10.0.21.87:3306/trans_00" />
+        <property name="user" value="renwoxing" />
+        <property name="password" value="baofoo@64" />
+        <property name="initialPoolSize" value="500" />
+        <property name="minPoolSize" value="500" />
+        <property name="maxPoolSize" value="500" />
+        <property name="acquireIncrement" value="10" />
         <property name="maxIdleTime" value="10" />
         <property name="maxStatements" value="0" />
     </bean>
 
     <bean id="trans_01" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
         <property name="driverClass" value="com.mysql.jdbc.Driver" />
-        <property name="jdbcUrl" value="jdbc:mysql://localhost:3306/trans_01" />
-        <property name="user" value="root" />
-        <property name="password" value="root" />
-        <property name="initialPoolSize" value="1" />
-        <property name="minPoolSize" value="1" />
-        <property name="maxPoolSize" value="10" />
-        <property name="acquireIncrement" value="5" />
+        <property name="jdbcUrl" value="jdbc:mysql://10.0.21.89:3306/trans_01" />
+        <property name="user" value="renwoxing" />
+        <property name="password" value="baofoo@64" />
+        <property name="initialPoolSize" value="500" />
+        <property name="minPoolSize" value="500" />
+        <property name="maxPoolSize" value="500" />
+        <property name="acquireIncrement" value="10" />
         <property name="maxIdleTime" value="10" />
         <property name="maxStatements" value="0" />
     </bean>
