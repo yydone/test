@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yydone.dao.TransMapper">
+
+    <!-- 根据主键ID查询  -->
+    <select id="get" resultType="com.yydone.model.Trans" >
+        SELECT
+            trans_id AS transId,
+            trans_amt AS transAmt,
+            org_code AS orgCode,
+            trans_state AS transState,
+            create_time AS createTime,
+            update_time AS updateTime,
+            version AS version
+        FROM
+            t_trans
+        WHERE
+            trans_id = #{transId}
+    </select>
+
+    <insert id="save" >
+        INSERT INTO
+            t_trans
+            (trans_id,trans_amt,org_code,trans_state)
+        value
+            (#{trans.transId}, #{trans.transAmt}, #{trans.orgCode}, #{trans.transState})
+    </insert>
+
+    <update id="update">
+        UPDATE
+            t_trans
+        SET
+            trans_state = #{transState},
+            version = #{version},
+            update_time = CURRENT_TIMESTAMP
+        WHERE
+            trans_id = #{transId}
+    </update>
+
+    <select id="getList" resultType="com.yydone.model.Trans">
+        SELECT
+            trans_id AS transId,
+            trans_amt AS transAmt,
+            org_code AS orgCode,
+            trans_state AS transState,
+            create_time AS createTime,
+            update_time AS updateTime,
+            version AS version
+        FROM
+            t_trans
+        WHERE
+            org_code = #{orgCode}
+        ORDER BY trans_id ASC
+        limit #{start}, 10
+    </select>
+
+    <select id="getCount" resultType="Integer">
+        SELECT
+            count(1)
+        from
+            t_trans
+        where
+            org_code = #{orgCode}
+    </select>
+
+    <update id="updateAmt">
+        update
+            t_trans
+        SET
+            trans_amt = trans_amt + #{transAmt},
+            version=version+1,
+            update_time=CURRENT_TIMESTAMP
+        where
+            trans_id = #{transId}
+    </update>
+
+    <select id="getLists" resultType="com.yydone.model.Trans">
+        SELECT
+        trans_id AS transId,
+        trans_amt AS transAmt,
+        org_code AS orgCode,
+        trans_state AS transState,
+        create_time AS createTime,
+        update_time AS updateTime,
+        version AS version
+        FROM
+        t_trans
+        WHERE
+        trans_state = #{transState}
+        limit 10
+    </select>
+
+</mapper>
