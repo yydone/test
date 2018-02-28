@@ -1,8 +1,16 @@
 package com.yydone.dao.test;
 
 import com.google.common.collect.Sets;
+import com.mchange.v2.c3p0.ComboPooledDataSource;
 import com.yydone.dao.TransMapper;
 import com.yydone.model.Trans;
+import io.shardingjdbc.core.api.HintManager;
+import io.shardingjdbc.core.api.ShardingDataSourceFactory;
+import io.shardingjdbc.core.api.config.ShardingRuleConfiguration;
+import io.shardingjdbc.core.api.config.strategy.NoneShardingStrategyConfiguration;
+import io.shardingjdbc.core.api.config.strategy.StandardShardingStrategyConfiguration;
+import io.shardingjdbc.core.constant.ShardingOperator;
+import io.shardingjdbc.spring.datasource.SpringShardingDataSource;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,6 +19,7 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import javax.sql.DataSource;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.*;
@@ -21,6 +30,8 @@ public class TransMapperTest {
 
     @Autowired
     private TransMapper transMapper;
+    @Autowired
+    private Map<String, ComboPooledDataSource> dataSourceMap;
 
     @Test
     public void saveTest() throws InterruptedException {
@@ -49,14 +60,25 @@ public class TransMapperTest {
         long end = System.currentTimeMillis();
         System.out.println("插入数据库所花时间:" + (end - start));
 
-        /*start = System.currentTimeMillis();
-        int i;
-        for(i=0;i<futures.size();i++) {
-            System.out.println(futures.get(i));
-        }
-        end = System.currentTimeMillis();
-        System.out.println(i+"个结果，所花时间:" + (end - start));*/
+    }
 
+    @Test
+    public void updateAmtTest() throws InterruptedException {
+        int num = 100000;
+        Set<UpdateTransThread> set = Sets.newHashSet();
+        String [] transIds = {"2018020108580600000003000000107","2018020108580600000004000000108"};
+        for(int i=0;i<num;i++) {
+            UpdateTransThread transThread = new UpdateTransThread();
+            String transId = transIds[new Random().nextInt(2)];
+            transThread.setTransId(transId);
+            set.add(transThread);
+        }
+        long start = System.currentTimeMillis();
+        ExecutorService executorService = Executors.newFixedThreadPool(200);
+        List<Future<Integer>> futures = executorService.invokeAll(set);
+        long end = System.currentTimeMillis();
+
+        System.out.println("更新数据库所花时间:" + (end - start));
     }
 
     class TransThread implements Callable<String> {
@@ -79,6 +101,23 @@ public class TransMapperTest {
             trans.setTransState("00");
             transMapper.save(trans);
             return trans.getTransId();
+        }
+    }
+
+    class UpdateTransThread implements Callable<Integer> {
+
+        private String transId;
+
+        public String getTransId() {
+            return transId;
+        }
+
+        public void setTransId(String transId) {
+            this.transId = transId;
+        }
+
+        public Integer call() throws Exception {
+            return transMapper.updateAmt(transId, 100L);
         }
     }
 
@@ -121,5 +160,27 @@ public class TransMapperTest {
 
         int count = transMapper.getCount("Z1020020020011");
         System.out.println("订单数为:"+ count);
+    }
+
+    @Test
+    public void getCountDb0() {
+        System.out.println("=======");
+        System.out.println(dataSourceMap.toString());
+
+        while(true) {
+            HintManager hintManager = HintManager.getInstance();
+            hintManager.addDatabaseShardingValue("t_trans","trans_id","0000");
+            hintManager.addTableShardingValue("t_trans","trans_id","00");
+            List<Trans> trans = transMapper.getLists("00");
+            hintManager.close();
+            if(trans!=null && trans.size()>0) {
+                for(Trans t : trans) {
+                    System.out.println(t.toString());
+                    transMapper.update(t.getTransId(), "01", t.getVersion()+1);
+                }
+            } else {
+                break;
+            }
+        }
     }
 }

@@ -3,6 +3,7 @@ package com.yydone.dao;
 import com.yydone.model.Trans;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.Date;
 import java.util.List;
 
 public interface TransMapper {
@@ -44,4 +45,14 @@ public interface TransMapper {
      * @return
      */
     public int getCount(@Param("orgCode") String orgCode);
+
+    /**
+     * 更新余额
+     * @param transId
+     * @param transAmt
+     * @return
+     */
+    public int updateAmt(@Param("transId") String transId, @Param("transAmt")long transAmt);
+
+    public List<Trans> getLists(@Param("transState") String  transState);
 }

@@ -17,5 +17,6 @@ public class Trans {
     private String transState;
     private Date createTime;
     private Date updateTime;
+    private Integer version;
 
 }

@@ -35,8 +35,8 @@
         <property name="password" value="baofoo@64" />
         <property name="initialPoolSize" value="500" />
         <property name="minPoolSize" value="500" />
-        <property name="maxPoolSize" value="500" />
-        <property name="acquireIncrement" value="10" />
+        <property name="maxPoolSize" value="1000" />
+        <property name="acquireIncrement" value="50" />
         <property name="maxIdleTime" value="10" />
         <property name="maxStatements" value="0" />
     </bean>
@@ -48,8 +48,8 @@
         <property name="password" value="baofoo@64" />
         <property name="initialPoolSize" value="500" />
         <property name="minPoolSize" value="500" />
-        <property name="maxPoolSize" value="500" />
-        <property name="acquireIncrement" value="10" />
+        <property name="maxPoolSize" value="1000" />
+        <property name="acquireIncrement" value="50" />
         <property name="maxIdleTime" value="10" />
         <property name="maxStatements" value="0" />
     </bean>

@@ -63,5 +63,31 @@
             org_code = #{orgCode}
     </select>
 
+    <update id="updateAmt">
+        update
+            t_trans
+        SET
+            trans_amt = trans_amt + #{transAmt},
+            version=version+1,
+            update_time=CURRENT_TIMESTAMP
+        where
+            trans_id = #{transId}
+    </update>
+
+    <select id="getLists" resultType="com.yydone.model.Trans">
+        SELECT
+        trans_id AS transId,
+        trans_amt AS transAmt,
+        org_code AS orgCode,
+        trans_state AS transState,
+        create_time AS createTime,
+        update_time AS updateTime,
+        version AS version
+        FROM
+        t_trans
+        WHERE
+        trans_state = #{transState}
+        limit 10
+    </select>
 
 </mapper>
