@@ -10,6 +10,8 @@ import org.springframework.util.ObjectUtils;
  */
 public class MemberConvert {
 
+    private MemberConvert() {}
+
     public static MemberDTO convert(MemberDO m) {
         if(ObjectUtils.isEmpty(m)) {
             return null;
