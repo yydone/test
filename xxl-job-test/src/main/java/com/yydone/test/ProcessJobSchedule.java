@@ -30,8 +30,6 @@ public class ProcessJobSchedule extends IJobHandler {
         ShardingUtil.ShardingVO shardingVO = ShardingUtil.getShardingVo();
         System.out.println("当前分片序号为："+shardingVO.getIndex());
 
-        xxlJobExecutor.
-
         if(shardingVO.getIndex()<dbs.length) {
             String db = dbs[shardingVO.getIndex()];
             System.out.println("当前分片处理数据库为:" + db);

@@ -8,5 +8,10 @@ import com.yydone.demo.facade.dto.MemberDTO;
  */
 public interface MemberFacade {
 
-    public MemberDTO get(String memberId);
+    /**
+     * 根据商户号获取商户信息
+     * @param memberId
+     * @return
+     */
+    MemberDTO get(String memberId);
 }

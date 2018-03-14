@@ -4,6 +4,10 @@ import com.yydone.demo.mapper.MemberMapper;
 import com.yydone.demo.model.MemberDO;
 import org.springframework.stereotype.Repository;
 
+/**
+ * @author yunix
+ * @since 2018/3/14
+ */
 @Repository
 public class MemberMapperImpl implements MemberMapper {
 

@@ -6,6 +6,10 @@ import lombok.ToString;
 
 import java.util.Date;
 
+/**
+ * @author yunix
+ * @since 2018/3/14
+ */
 @Setter
 @Getter
 @ToString
