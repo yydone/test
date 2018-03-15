@@ -1,6 +1,9 @@
 package com.yydone.demo.controller;
 
+import com.yydone.demo.facade.MemberFacade;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -11,9 +14,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class MemberController {
 
+    @Autowired
+    private MemberFacade memberFacade;
+
     @RequestMapping("get")
+    @ResponseBody
     public String get() {
-        return "this is get method";
+        return memberFacade.get("111").toString();
     }
 
     @RequestMapping("update")

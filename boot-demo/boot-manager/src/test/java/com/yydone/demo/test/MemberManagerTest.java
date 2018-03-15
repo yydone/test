@@ -1,8 +1,8 @@
 package com.yydone.demo.test;
 
 import com.yydone.demo.manager.impl.MemberManagerImpl;
-import com.yydone.demo.mapper.MemberMapper;
-import com.yydone.demo.model.MemberDO;
+import com.yydone.demo.dal.mapper.MemberMapper;
+import com.yydone.demo.dal.model.MemberDO;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -25,7 +25,7 @@ public class MemberManagerTest {
     public void getTest() {
         MemberDO m = new MemberDO();
         m.setMemberId("1");
-        when(memberMapper.get(Mockito.anyString())).thenReturn(m);
+        when(memberMapper.getMemberId(Mockito.anyString())).thenReturn(m);
         Assert.assertEquals("1", memberManager.get("1").getMemberId());
     }
 }

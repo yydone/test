@@ -1,9 +1,8 @@
 package com.yydone.demo.test;
 
 import com.yydone.demo.biz.impl.MemberBizImpl;
-import com.yydone.demo.facade.dto.MemberDTO;
 import com.yydone.demo.manager.MemberManager;
-import com.yydone.demo.model.MemberDO;
+import com.yydone.demo.dal.model.MemberDO;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;

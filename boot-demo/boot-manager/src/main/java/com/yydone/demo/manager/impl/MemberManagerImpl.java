@@ -1,8 +1,8 @@
 package com.yydone.demo.manager.impl;
 
 import com.yydone.demo.manager.MemberManager;
-import com.yydone.demo.mapper.MemberMapper;
-import com.yydone.demo.model.MemberDO;
+import com.yydone.demo.dal.mapper.MemberMapper;
+import com.yydone.demo.dal.model.MemberDO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -18,6 +18,6 @@ public class MemberManagerImpl implements MemberManager {
 
     @Override
     public MemberDO get(String memberId) {
-        return memberMapper.get(memberId);
+        return memberMapper.getMemberId(memberId);
     }
 }

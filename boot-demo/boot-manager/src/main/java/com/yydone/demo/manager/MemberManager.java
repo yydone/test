@@ -1,6 +1,6 @@
 package com.yydone.demo.manager;
 
-import com.yydone.demo.model.MemberDO;
+import com.yydone.demo.dal.model.MemberDO;
 
 /**
  * @author yunix

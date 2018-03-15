@@ -1,7 +1,7 @@
 package com.yydone.demo.biz.convert;
 
 import com.yydone.demo.facade.dto.MemberDTO;
-import com.yydone.demo.model.MemberDO;
+import com.yydone.demo.dal.model.MemberDO;
 import org.springframework.util.ObjectUtils;
 
 /**
