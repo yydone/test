@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: customer
+  data.:
+    neo4j:
+      username: neo4j
+      password: yang@123
+      uri: bolt://localhost
+      auto-index: none
+server:
+  port: 8080
+
+
+

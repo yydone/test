@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <!-- 管控台日志打印，发布生产需注释 -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder charset="utf-8"> <!-- encoder 可以指定字符集，对于中文输出有意义 -->
+            <!-- %.-1level 只显示信息级别的首字母,%-5level 左对齐显示信息级别全称 -->
+            <!-- 如需自定义关键字，用 %mdc{键名} 表示,程序中用MDC.put("键名","键值")设置，可动态设置 [%logger:%line]-->
+            <Pattern>[%date{yyyy-MM-dd HH:mm:ss.SSS}] %level [%X{TRACE_LOG_ID}] [%file:%method:%line] %msg%n</Pattern>
+        </encoder>
+        >
+    </appender>
+
+    <!-- error 级别日志文件 -->
+    <appender name="error" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <File>/data/log/neo4j-demo-error.log</File>
+        <encoder>
+            <Pattern>[%date{yyyy-MM-dd HH:mm:ss.SSS}] %level [%X{TRACE_LOG_ID}] [%file:%method:%line] %msg%n</Pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>/data/log/neo4j-demo-error-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <maxHistory>7</maxHistory>
+            <TimeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>512MB</maxFileSize>
+            </TimeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+
+    <!-- 普通日志文件,排除错误日志 -->
+    <appender name="logfile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <File>/data/log/neo4j-demo-info.log</File>
+        <encoder>
+            <Pattern>[%date{yyyy-MM-dd HH:mm:ss.SSS}] %level [%X{TRACE_LOG_ID}] [%file:%method:%line] %msg%n</Pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>/data/log/neo4j-demo-info-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <maxHistory>7</maxHistory>
+            <TimeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>512MB</maxFileSize>
+            </TimeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>q
+            <onMatch>DENY</onMatch>
+            <onMismatch>ACCEPT</onMismatch>
+        </filter>
+    </appender>
+
+    <!-- 输出到文件 -->
+    <logger level="DEBUG" name="com.yydone.demo" additivity="false">
+        <!-- 去除错误日志 -->
+        <appender-ref ref="logfile"/>
+        <!-- 只打印错误日志 -->
+        <appender-ref ref="error"/>
+
+       <appender-ref ref="STDOUT"/>
+    </logger>
+
+    <root level="DEBUG" name="com.yydone.demo">
+        <!-- 默认不输出 -->
+       <appender-ref ref="STDOUT"/>
+        <appender-ref ref="logfile"/>
+    </root>
+    
+</configuration>
