@@ -1,6 +1,5 @@
 package com.yydone.test;
 
-import com.xxl.job.core.biz.ExecutorBiz;
 import com.xxl.job.core.biz.model.ReturnT;
 import com.xxl.job.core.executor.XxlJobExecutor;
 import com.xxl.job.core.handler.IJobHandler;
@@ -12,8 +11,7 @@ import org.springframework.stereotype.Component;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-@JobHandler(value="processJobSchedule")
-@Component
+@JobHandler(value="xxlJobDemo")
 public class ProcessJobSchedule extends IJobHandler {
 
     @Autowired
@@ -34,7 +32,7 @@ public class ProcessJobSchedule extends IJobHandler {
             String db = dbs[shardingVO.getIndex()];
             System.out.println("当前分片处理数据库为:" + db);
             System.out.println("处理中,处理时长需要70s");
-            Thread.sleep(70000);
+           // Thread.sleep(70000);
             System.out.println("处理完成:"+db);
         } else {
             System.out.println("当前分片:"+ shardingVO.getIndex()+"无须处理");

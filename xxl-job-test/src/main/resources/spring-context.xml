@@ -10,14 +10,16 @@
     <!-- ********************************* 基础配置 ********************************* -->
 
 	<!-- 配置01、JobHandler 扫描路径 -->
-	<context:component-scan base-package="com.yydone.test" />
+	<bean id="xxlJobDemo" class="com.yydone.test.ProcessJobSchedule"/>
 
 	<!-- 配置02、执行器 -->
 	<bean id="xxlJobExecutor" class="com.xxl.job.core.executor.XxlJobExecutor" init-method="start" destroy-method="destroy" >
 		<!-- 执行器注册中心地址[选填]，为空则关闭自动注册 -->
-		<property name="adminAddresses" value="http://localhost:8080/xxl-job-admin" />
+		<!--<property name="adminAddresses" value="http://10.0.20.53:8080/" />-->
+		<property name="adminAddresses" value="http://10.6.124.16:8080/xxl-job-admin" />
+		<!--<property name="adminAddresses" value="http://10.0.19.97:8080/msa-job" />-->
 		<!-- 执行器AppName[选填]，为空则关闭自动注册 -->
-		<property name="appName" value="process" />
+		<property name="appName" value="xxl-job-test" />
 		<!-- 执行器IP[选填]，为空则自动获取 -->
 		<property name="ip" value="" />
 		<!-- 执行器端口号[选填]，为空则自动获取 -->
